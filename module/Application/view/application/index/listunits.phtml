@@ -1,0 +1,40 @@
+<form 
+    method="POST" 
+    action="<?php echo $this->url('application/default', array('controller'=> 'index', 'action'=>'listunits')) ?>" 
+    type="ajax"
+>
+<input type="hidden" name="page" value="<?php echo $this->page ?>">
+<select name="limit">
+    <option value="1" <?= ($this->limit==1)?'selected':'' ?>>1</option>
+    <option value="2" <?= ($this->limit==2)?'selected':'' ?>>2</option>
+    <option value="3" <?= ($this->limit==3)?'selected':'' ?>>3</option>
+</select>
+
+<br>
+<input type="checkbox" name="odd" value="1" <?= ($this->odd? 'checked' : '') ?>>Odd Ids Only<br>
+
+<table class="table table-striped">
+    <tr>
+        <td>Id</td>
+        <td>Name</td>
+        <td>Date</td>
+    </tr>
+    
+<?php 
+    foreach($this->paginator as $data) {
+?>
+    <tr>
+        <td><?php echo htmlspecialchars($data[0]) ?></td>
+        <td><?php echo htmlspecialchars($data[1]) ?></td>
+        <td><?php echo htmlspecialchars($data[2]) ?></td>
+    </tr>
+<?php 
+    }
+?>
+</table>
+
+<?php 
+echo $this->paginationcontrol($this->paginator, 'Sliding', 'pagination/sliding', array());
+?>
+
+</form>

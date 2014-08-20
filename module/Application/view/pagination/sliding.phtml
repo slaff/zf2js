@@ -1,0 +1,33 @@
+<?php if ($this->pageCount): ?>
+
+<div class="pagination">
+<?php echo $this->firstItemNumber; ?> - <?php echo $this->lastItemNumber; ?> of <?php echo $this->totalItemCount; ?>
+<br>
+
+<ul>
+<!-- First page link -->
+<?php if (isset($this->previous)): ?>
+  <li><a href="<?php echo $this->previous ?>">&laquo;</a></li>
+<?php else: ?>
+  <li class="disabled"><a href="#">&laquo;</a></li>
+<?php endif; ?>
+
+<!-- Numbered page links -->
+<?php foreach ($this->pagesInRange as $page): ?>
+  <?php if ($page != $this->current): ?>
+    <li><a href="<?php echo $page?>"><?php echo $page; ?></a></li>
+  <?php else: ?>
+    <li class="disabled"><a href="#"><?php echo $page; ?></a></li>
+  <?php endif; ?>
+<?php endforeach; ?>
+
+<!-- Last page link -->
+<?php if (isset($this->last)): ?>
+    <li><a href="<?php echo $this->last ?>">&raquo;</a></li>
+<?php else: ?>
+  <li class="disabled"><a href="#">&raquo;</a></li>
+<?php endif; ?>
+
+</ul>
+</div>
+<?php endif; ?>

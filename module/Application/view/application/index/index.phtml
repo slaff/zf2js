@@ -1,0 +1,63 @@
+<div class="hero-unit">
+    <h1><?php echo sprintf($this->translate('Welcome to %sZend Framework 2%s'), '<span class="zf-green">', '</span>') ?></h1>
+    <p><?php echo sprintf($this->translate('Congratulations! You have successfully installed the %sZF2 Skeleton Application%s. You are currently running Zend Framework version %s. This skeleton can serve as a simple starting point for you to begin building your application on ZF2.'), '<a href="https://github.com/zendframework/ZendSkeletonApplication" target="_blank">', '</a>', \Zend\Version\Version::VERSION) ?></p>
+    <p><a class="btn btn-success btn-large" href="https://github.com/zendframework/zf2" target="_blank"><?php echo $this->translate('Fork Zend Framework 2 on GitHub') ?> &raquo;</a></p>
+</div>
+
+<div class="row">
+    <div class="span4">
+        <h2><?php echo $this->translate('Follow Development') ?></h2>
+        <p><?php echo sprintf($this->translate('Zend Framework 2 is under active development. If you are interested in following the development of ZF2, there is a special ZF2 portal on the official Zend Framework website which provides links to the ZF2 %swiki%s, %sdev blog%s, %sissue tracker%s, and much more. This is a great resource for staying up to date with the latest developments!'), '<a href="http://framework.zend.com/wiki/display/ZFDEV2/Home">', '</a>', '<a href="http://framework.zend.com/zf2/blog">', '</a>', '<a href="https://github.com/zendframework/zf2/issues">', '</a>') ?></p>
+        <p><a class="btn btn-success" href="http://framework.zend.com/zf2" target="_blank"><?php echo $this->translate('ZF2 Development Portal') ?> &raquo;</a></p>
+    </div>
+
+    <div class="span8" id="listUnits" data-src="<?php echo $this->url('application/default', array('controller'=>'index', 'action'=>'listunits')) ?>">
+   <?php echo $this->listUnits ?>
+   </div>
+</div>
+
+<?php $this->headScript()->captureStart() ?>
+
+$(document).ready(function(){
+    $('div[data-src]').each(function(index){
+        var self = this;
+        $.ajax({
+            url: $(this).attr('data-src'),
+            success: function(result) {
+                $(self).html(result);
+            }
+        });    
+    });   
+    
+    function submitForm(form) {
+        var data = $(form).serialize();
+        var url  = $(form).attr('action');
+        var target = $(form).closest('div').attr('id');
+        
+        $.ajax({
+            method: "post",
+            url: url,
+            data: data,
+            success: function(result) {
+                $('#'+target).html(result);
+            }
+        });
+    }
+    
+    $('body').on('click','.pagination a', function(event) {
+        event.preventDefault();
+        var pageValue = $(this).attr('href')
+  
+        var form = $(this).closest('form[type=ajax]')
+        var page = $(form).find('input[name=page]');
+        $(page).val(pageValue)
+  
+        submitForm(form)
+    });
+    
+    $('body').on('change submit', 'form[type=ajax]', function(event) {
+        event.preventDefault()
+        submitForm(this)
+    });
+});
+<?php $this->headScript()->captureEnd() ?>
