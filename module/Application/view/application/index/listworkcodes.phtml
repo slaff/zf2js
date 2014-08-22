@@ -1,6 +1,6 @@
 <form 
     method="POST" 
-    action="<?php echo $this->url('application/default', array('controller'=> 'index', 'action'=>'listworkcodes')) ?>" 
+    action="<?php echo $this->url('application/default', array('controller'=> 'index', 'action'=>'listunits')) ?>" 
     type="ajax"
 >
 <input type="hidden" name="page" value="<?php echo $this->page ?>">
@@ -15,9 +15,9 @@
 
 <table class="table table-striped">
     <tr>
-        <td>Key</td>
-        <td>User Name</td>
-        <td>Created</td>
+        <td>Id</td>
+        <td>Name</td>
+        <td>Date</td>
     </tr>
     
 <?php 

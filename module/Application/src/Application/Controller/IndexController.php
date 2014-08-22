@@ -71,6 +71,51 @@ class IndexController extends AbstractActionController
     
     
     public function listworkcodesAction() {
+        $sampleData = array(
+            array('11','Peter Parker','2004-12-34'),
+            array('22','Don Bon','2003-12-34'),
+            array('33','Mickey Mouse','2012-12-34'),
+            array('44','Peter Parker','2004-12-34'),
+            array('55','Peter Pan','2003-12-34'),
+            array('66','Uncle Ben','2012-12-34'),
+            array('66','Uncle Ben','2012-12-34'),
+            array('77','Uncle Ben','2012-12-34'),
+        );
         
+        
+        @$page  = (int)$_REQUEST['page'];
+        @$limit = (int)$_REQUEST['limit'];
+        if($page == 0) {
+            $page = 1;
+        }
+        if($limit == 0) {
+            $limit = 3;
+        }
+        
+        // Example for pre-processing of the data...
+        $odd = (boolean)$_REQUEST['odd'];
+        if($odd) {
+            foreach ($sampleData as $i => $row) {
+                if($row[0] % 2) {
+                    unset($sampleData[$i]);
+                }
+            }
+        }
+        
+        $adapter = new PaginatorAdapter($sampleData);
+        $paginator = new Paginator($adapter);
+        $paginator->setCurrentPageNumber($page);
+        $paginator->setItemCountPerPage($limit);
+         
+        $viewModel = new ViewModel(array(
+            'paginator' => $paginator,
+            'page'      => $page,
+            'limit'     => $limit,
+            'odd'       => $odd,
+        ));
+         
+        $viewModel->setTerminal(true);
+         
+        return $viewModel;
     }
 }
